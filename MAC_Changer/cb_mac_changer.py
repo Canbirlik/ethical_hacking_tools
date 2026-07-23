@@ -52,6 +52,13 @@ def get_user_input():
 
     return options.interface, options.new_mac
 
+def control_new_mac(interface, new_mac):
+    existing_mac = subprocess.check_output(["ifconfig", interface]).decode("utf-8")
+    if new_mac in existing_mac:
+        print(f"MAC address for {interface} is successfully set to {new_mac}")
+    else:
+        print(f"Change MAC address is failed for {interface} to {new_mac}")
+
 def main():
 
     #interface = input("Enter the network interface (e.g., eth0, wlan0): ")
@@ -60,6 +67,8 @@ def main():
     interface, new_mac = get_user_input()
 
     change_mac(interface, new_mac)
+
+    control_new_mac(interface, new_mac)
 
 if __name__ == "__main__":
     main()
